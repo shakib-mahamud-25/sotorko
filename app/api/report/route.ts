@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
   // Phase 4 — every report published unconditionally regardless of
   // signal, meaning the moderation queue had structurally nothing to
   // moderate. See lib/trust-score.ts for what is and isn't assessed.
-  const recentCount = recordSubmissionAndGetRecentCount(clientKey);
+  const recentCount = await recordSubmissionAndGetRecentCount(clientKey);
   const assessment = assessNewReport({
     recentSubmissionCountFromCaller: recentCount,
     severity,
@@ -113,10 +113,10 @@ export async function POST(request: NextRequest) {
     exactLongitude: longitude,
   };
 
-  insertReport(report);
+  await insertReport(report);
 
   if (!assessment.shouldPublishImmediately) {
-    enqueueForModeration(id, assessment.flagReasons);
+    await enqueueForModeration(id, assessment.flagReasons);
   }
 
   const publicReport = toPublicReport(report);
