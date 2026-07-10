@@ -9,7 +9,7 @@ import { listPublishedReports, toPublicReport } from "@/lib/report-store";
  * frontend.
  */
 export async function GET() {
-  const reports = listPublishedReports().map(toPublicReport);
+  const reports = (await listPublishedReports()).map(toPublicReport);
 
   return NextResponse.json(
     { reports },
