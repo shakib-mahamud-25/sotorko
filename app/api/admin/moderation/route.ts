@@ -8,13 +8,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const entries = listPendingModerationEntries();
+  const entries = await listPendingModerationEntries();
 
-  const withReports: { entry: ModerationQueueEntry; report: Report | null }[] = entries.map(
-    (entry) => {
-      const stored = getReportById(entry.reportId);
+  const withReports: { entry: ModerationQueueEntry; report: Report | null }[] = await Promise.all(
+    entries.map(async (entry) => {
+      const stored = await getReportById(entry.reportId);
       return { entry, report: stored ? toPublicReport(stored) : null };
-    }
+    })
   );
 
   return NextResponse.json(
