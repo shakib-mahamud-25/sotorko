@@ -7,8 +7,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const all = listAllReports();
-  const pending = listPendingModerationEntries();
+  const all = await listAllReports();
+  const pending = await listPendingModerationEntries();
 
   const statusCounts = {
     published: 0,
