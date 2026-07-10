@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   }
 
   const codeHash = hashEditCode(parsed.data.code);
-  const existing = getReportByEditCodeHash(codeHash);
+  const existing = await getReportByEditCodeHash(codeHash);
 
   // Deliberately vague error — do not reveal whether the code format
   // was wrong vs. no matching report exists, to avoid helping someone
@@ -53,11 +53,11 @@ export async function POST(request: NextRequest) {
   }
 
   if (parsed.data.action === "delete") {
-    deleteReport(existing.id);
+    await deleteReport(existing.id);
     return NextResponse.json({ deleted: true });
   }
 
-  const updated = updateReport(existing.id, {
+  const updated = await updateReport(existing.id, {
     ...(parsed.data.description !== undefined && { description: parsed.data.description }),
     ...(parsed.data.severity !== undefined && { severity: parsed.data.severity }),
   });
