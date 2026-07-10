@@ -31,7 +31,7 @@ export async function POST(
     return NextResponse.json({ error: "Invalid decision." }, { status: 400 });
   }
 
-  const result = decideModerationEntry(queueId, parsed.data.decision, parsed.data.notes);
+  const result = await decideModerationEntry(queueId, parsed.data.decision, parsed.data.notes);
   if (!result) {
     return NextResponse.json({ error: "Queue entry not found." }, { status: 404 });
   }
