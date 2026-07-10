@@ -40,7 +40,7 @@ export async function POST(
     return NextResponse.json({ error: "Invalid confirmation." }, { status: 400 });
   }
 
-  const report = getReportById(id);
+  const report = await getReportById(id);
   if (!report || report.status !== "published") {
     return NextResponse.json({ error: "Report not found." }, { status: 404 });
   }
@@ -50,13 +50,13 @@ export async function POST(
   // reason not to) isn't what's compared/stored.
   const browserHash = createHash("sha256").update(parsed.data.browserId).digest("hex");
 
-  const updated = addConfirmation(id, parsed.data.confirmationType, browserHash);
+  const updated = await addConfirmation(id, parsed.data.confirmationType, browserHash);
 
   if (!updated) {
     // Either already confirmed by this browser, or the report
     // vanished between the lookup above and here — either way, the
     // current state is a legitimate response, not a hard error.
-    const current = getReportById(id);
+    const current = await getReportById(id);
     return NextResponse.json({
       report: current ? toPublicReport(current) : null,
       alreadyConfirmed: true,
