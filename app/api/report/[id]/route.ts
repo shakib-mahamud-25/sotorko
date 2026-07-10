@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const report = getReportById(id);
+  const report = await getReportById(id);
 
   if (!report || report.status !== "published") {
     return NextResponse.json({ error: "Report not found." }, { status: 404 });
