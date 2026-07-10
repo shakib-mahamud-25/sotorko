@@ -1,0 +1,137 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ------------------------------------------------------------------ */
+/* Sotorko Design System                                              */
+/* Source of truth: docs/03-Design-System.md                          */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Brand */
+  --navy: #0f172a;
+  --white: #ffffff;
+  --gray-bg: #f8fafc;
+  --accent-blue: #2563eb;
+
+  /* Safety status colors */
+  --status-safe: #16a34a;
+  --status-mostly-safe: #22c55e;
+  --status-caution: #f59e0b;
+  --status-unsafe: #ea580c;
+  --status-avoid: #dc2626;
+  --status-info: #2563eb;
+
+  /* shadcn-style semantic tokens, mapped onto the Sotorko palette */
+  --background: var(--white);
+  --foreground: var(--navy);
+
+  --card: var(--white);
+  --card-foreground: var(--navy);
+
+  --popover: var(--white);
+  --popover-foreground: var(--navy);
+
+  --primary: var(--navy);
+  --primary-foreground: var(--white);
+
+  --secondary: var(--gray-bg);
+  --secondary-foreground: var(--navy);
+
+  --muted: var(--gray-bg);
+  --muted-foreground: #64748b;
+
+  --accent: var(--accent-blue);
+  --accent-foreground: var(--white);
+
+  --destructive: var(--status-avoid);
+  --destructive-foreground: var(--white);
+
+  --success: var(--status-safe);
+  --success-foreground: var(--white);
+
+  --warning: var(--status-caution);
+  --warning-foreground: var(--navy);
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: var(--accent-blue);
+
+  /* Radii — from design system section 6 */
+  --radius-card: 0.75rem;    /* 12px */
+  --radius-button: 0.625rem; /* 10px */
+  --radius-input: 0.625rem;  /* 10px */
+  --radius-modal: 1rem;      /* 16px */
+  --radius-popup: 0.875rem;  /* 14px */
+  --radius: var(--radius-button);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Safety score status colors, exposed as utilities:
+     bg-status-safe, text-status-caution, etc. */
+  --color-status-safe: var(--status-safe);
+  --color-status-mostly-safe: var(--status-mostly-safe);
+  --color-status-caution: var(--status-caution);
+  --color-status-unsafe: var(--status-unsafe);
+  --color-status-avoid: var(--status-avoid);
+  --color-status-info: var(--status-info);
+
+  --radius-card: var(--radius-card);
+  --radius-button: var(--radius-button);
+  --radius-input: var(--radius-input);
+  --radius-modal: var(--radius-modal);
+  --radius-popup: var(--radius-popup);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: var(--font-inter), "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Sotorko is intentionally a single calm light theme (see design
+   philosophy: calm, trustworthy, not flashy). No auto dark mode. */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  /* Visible focus states are a non-negotiable accessibility
+     requirement (Design System §16). */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
