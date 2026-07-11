@@ -31,11 +31,7 @@ export function AdminLoginGate({ children }: { children: React.ReactNode }) {
             <span className="text-sm font-medium">Moderator Access</span>
           </div>
           <CardTitle className="text-xl">Sign in to moderate</CardTitle>
-          <CardDescription>
-            This is an interim access code, not a full account system —
-            see PROJECT_CONTEXT.md for what a real moderator login
-            needs before launch.
-          </CardDescription>
+          <CardDescription>Enter your access code to continue.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
