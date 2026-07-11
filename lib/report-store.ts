@@ -177,10 +177,34 @@ export async function getReportByEditCodeHash(hash: string): Promise<StoredRepor
 
 export async function listPublishedReports(): Promise<StoredReport[]> {
   const supabase = createServiceRoleClient();
-  const { data, error } = await supabase
+
+  // Seed/demo data (is_seed = true) is shown so the map/list isn't
+  // empty before real submissions come in. Once 20 real reports are
+  // published, seed rows stop being returned — same threshold
+  // enforced in the public_reports view as a second line of defense
+  // for any query path that reads from that view instead of this
+  // function.
+  const { count: realCount, error: countError } = await supabase
+    .from("reports")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "published")
+    .eq("is_seed", false);
+
+  if (countError) throw new Error(`listPublishedReports count failed: ${countError.message}`);
+
+  const REAL_REPORT_THRESHOLD = 20;
+  const hideSeedData = (realCount ?? 0) >= REAL_REPORT_THRESHOLD;
+
+  let query = supabase
     .from("reports")
     .select(REPORT_SELECT_WITH_LOCATION)
     .eq("status", "published");
+
+  if (hideSeedData) {
+    query = query.eq("is_seed", false);
+  }
+
+  const { data, error } = await query;
 
   if (error) throw new Error(`listPublishedReports failed: ${error.message}`);
   return (data as unknown as ReportRow[]).map(rowToStoredReport);
